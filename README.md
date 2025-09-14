@@ -81,10 +81,50 @@ Before running this API, you MUST complete the following setup steps in your Sup
 
 ## Testing
 
-To run the tests:
-```
-pytest test_endpoints.py -v
-```
+To run the tests, you must first start the API server:
+
+1. Start the API server:
+   ```
+   python main.py
+   ```
+   or use the provided batch script:
+   ```
+   start_api.bat
+   ```
+
+2. In a separate terminal, run the tests:
+   ```
+   pytest test_endpoints.py -v
+   ```
+   or use the provided batch script:
+   ```
+   run_tests.bat
+   ```
+
+Note: The tests require the API server to be running on localhost:8001 to connect to it. All tests will fail if the server is not running.
+
+## Documentation
+
+Comprehensive API documentation is available in `API_DOCUMENTATION.md` which includes:
+- Detailed endpoint descriptions
+- Usage examples
+- Setup instructions
+- Supported audio formats
+- Error handling information
+
+## Client Example
+
+A Python client example is provided in `client_example.py` that demonstrates how to:
+- Upload audio files
+- List all uploaded files
+- Get file information
+- Download files
+- Delete files
+
+## Convenience Scripts
+
+- `start_api.bat` - Starts the API server
+- `run_tests.bat` - Runs the test suite
 
 ## Note
 
