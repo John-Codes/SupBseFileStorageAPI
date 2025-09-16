@@ -10,7 +10,7 @@ def install_requirements():
         import requests
     except ImportError:
         print("Installing required packages...")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "pytest", "requests"])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements-dev.txt"])
     else:
         print("Required packages already installed")
 

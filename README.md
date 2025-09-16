@@ -47,6 +47,7 @@ Before running this API, you MUST complete the following setup steps in your Sup
 
 - Python 3.8+
 - Supabase account
+- Docker (for containerized deployment)
 
 ## Installation
 
@@ -55,7 +56,12 @@ Before running this API, you MUST complete the following setup steps in your Sup
    pip install -r requirements.txt
    ```
 
-2. Set up your Supabase credentials in a `.env` file:
+2. For development and testing, install development dependencies:
+   ```
+   pip install -r requirements-dev.txt
+   ```
+
+3. Set up your Supabase credentials in a `.env` file:
    ```
    SUPABASE_URL=your_supabase_url
    SUPABASE_KEY=your_supabase_key
@@ -63,12 +69,27 @@ Before running this API, you MUST complete the following setup steps in your Sup
 
 ## Usage
 
+### Option 1: Direct Python execution
 1. Start the server:
    ```
    python main.py
    ```
 
 2. The API will be available at `http://localhost:8001`
+
+### Option 2: Docker (Recommended for production)
+1. Build and run with Docker:
+   ```
+   docker build -t supabase-audio-api .
+   docker run -p 8001:8001 --env-file .env supabase-audio-api
+   ```
+
+### Option 3: Docker Compose (Recommended for development)
+1. Create a `.env` file with your Supabase credentials (see `env.example`)
+2. Start the services:
+   ```
+   docker-compose up --build
+   ```
 
 ## API Endpoints
 
@@ -81,6 +102,7 @@ Before running this API, you MUST complete the following setup steps in your Sup
 
 ## Testing
 
+### Option 1: Run tests against a running server
 To run the tests, you must first start the API server:
 
 1. Start the API server:
@@ -103,6 +125,17 @@ To run the tests, you must first start the API server:
 
 Note: The tests require the API server to be running on localhost:8001 to connect to it. All tests will fail if the server is not running.
 
+### Option 2: Run tests in Docker
+1. Build the Docker image:
+   ```
+   docker build -t supabase-audio-api .
+   ```
+
+2. Run tests in a container:
+   ```
+   docker run --env-file .env supabase-audio-api python -m pytest test_endpoints.py -v
+   ```
+
 ## Documentation
 
 Comprehensive API documentation is available in `API_DOCUMENTATION.md` which includes:
@@ -120,6 +153,22 @@ A Python client example is provided in `client_example.py` that demonstrates how
 - Get file information
 - Download files
 - Delete files
+
+## CI/CD Pipeline
+
+This project includes a GitHub Actions workflow that:
+- Runs security scans using Bandit
+- Performs code quality checks with Pylint
+- Builds and tests the Docker image
+- Automatically deploys to GitHub Container Registry on main branch changes
+
+## Production Considerations
+
+The Dockerfile includes several production-ready features:
+- Runs as a non-root user for security
+- Uses uvicorn with multiple workers for better performance
+- Optimized layer caching for faster builds
+- Minimal base image to reduce attack surface
 
 ## Convenience Scripts
 
